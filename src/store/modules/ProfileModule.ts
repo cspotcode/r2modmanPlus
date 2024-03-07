@@ -219,6 +219,20 @@ export default {
             commit('setDisabledPosition', settings.getInstalledDisablePosition());
         },
 
+        // This will be called by background processes and will fail silently
+        // if problems are encountered.
+        async tryLoadModListFromDisk({dispatch, state}) {
+            if (state.activeProfile === null) {
+                return;
+            }
+
+            const modList = await ProfileModList.getModList(state.activeProfile);
+
+            if (!(modList instanceof R2Error)) {
+                await dispatch('updateModList', modList);
+            }
+        },
+
         async updateActiveProfile({commit, rootGetters}, profileName: string) {
             commit('setActiveProfile', profileName);
             rootGetters['settings'].setProfile(profileName);

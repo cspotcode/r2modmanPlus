@@ -620,13 +620,6 @@ import CategoryFilterModal from '../components/modals/CategoryFilterModal.vue';
                 case "CleanCache":
                     CacheUtil.clean();
                     break;
-                case "RefreshedThunderstorePackages":
-                    ProfileModList.getModList(this.contextProfile!).then(async value => {
-                        if (!(value instanceof R2Error)) {
-                            await this.$store.dispatch("profile/updateModList", value);
-                        }
-                    });
-                    break;
             }
         }
 
